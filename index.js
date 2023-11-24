@@ -15,8 +15,9 @@ const corsConfig = {
 
 app.use(cors({
   origin: [
-    'car-doctors-47871.web.app',
-    'car-doctors-47871.firebaseapp.com'
+    'https://bistro-boss-64c97.web.app',
+    'http://localhost:5173',
+    'https://bistro-boss-64c97.firebaseapp.com'
   ],
   credentials: true
 }));
