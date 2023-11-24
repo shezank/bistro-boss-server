@@ -7,8 +7,23 @@ const port = process.env.PORT || 5000;
 const stripe = require("stripe")('sk_test_51OFDnkBWsjoCoMPuGir1jazvlx49EHa60fFPvsP3ewsV2cQfugKzsf4Fc1MxekUdU3Y5A5WzuAojtR67JcCHkSDA00ZBqqawS5');
 
 
-app.use(cors());
-app.use(express.json())
+const corsConfig = {
+  origin: '',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+
+app.use(cors({
+  origin: [
+    'car-doctors-47871.web.app',
+    'car-doctors-47871.firebaseapp.com'
+  ],
+  credentials: true
+}));
+app.use(express.json());
+app.use(cors(corsConfig));
+
+
 
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -26,7 +41,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const userCollection = client.db("bistrobossDB").collection("users");
     const menuCollection = client.db("bistrobossDB").collection("menu");
@@ -38,7 +53,7 @@ async function run() {
     app.get('/', (req, res) => {
       res.send('Bistro Boss Server Running')
     })
-    
+
     app.post('/jwt', async (req, res) => {
       const email = req.body;
       const token = jwt.sign(email, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '1h' })
@@ -227,8 +242,8 @@ async function run() {
     })
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
