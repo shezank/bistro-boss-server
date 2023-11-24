@@ -35,7 +35,10 @@ async function run() {
     
 
 
-
+    app.get('/', (req, res) => {
+      res.send('Bistro Boss Server Running')
+    })
+    
     app.post('/jwt', async (req, res) => {
       const email = req.body;
       const token = jwt.sign(email, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '1h' })
@@ -234,9 +237,7 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res) => {
-  res.send('Bistro Boss Server Running')
-})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
